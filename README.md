@@ -8,7 +8,7 @@ Usage: `FROM robuust/heroku-php`
 * Nginx
 * PHP 7.2.x with Redis and Imagick
 * Composer
-* Node 8.x
+* Node 10.x
 * Yarn
 * Chrome
 * ChromeDriver
