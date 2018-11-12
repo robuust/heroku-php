@@ -12,7 +12,7 @@ ENV IMAGICK_EXT_VERSION 3.4.3
 ENV NGINX_VERSION 1.8.1
 ENV NODE_VERSION 10.13.0
 ENV COMPOSER_VERSION 1.7.2
-ENV YARN_VERSION 1.12.1
+ENV YARN_VERSION 1.12.3
 
 # Create some needed directories
 RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
