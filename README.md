@@ -1,4 +1,4 @@
-# Docker image for Heroku PHP [![Build Status](https://travis-ci.com/robuust/heroku-php.svg?branch=master)](https://travis-ci.com/robuust/heroku-php)
+# Docker image for Heroku PHP [![Build status](https://badge.buildkite.com/93ccca7cf370307bc6a02801651853ad44ee64300ba2394d5d.svg)](https://buildkite.com/robuust/heroku-php)
 
 Usage: `FROM robuust/heroku-php`
 
