@@ -86,6 +86,9 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
  && rm /etc/apt/sources.list.d/google-chrome.list \
  && rm -rf /var/lib/apt/lists/*
 
+# Install Prestissimo
+RUN composer global require hirak/prestissimo
+
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.lock /app/user/
 ONBUILD COPY composer.json /app/user/
