@@ -6,13 +6,13 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 ENV PORT 3000
 
 # Which versions?
-ENV PHP_VERSION 7.3.4
+ENV PHP_VERSION 7.3.5
 ENV REDIS_EXT_VERSION 4.3.0
-ENV IMAGICK_EXT_VERSION 3.4.3
+ENV IMAGICK_EXT_VERSION 3.4.4
 ENV NGINX_VERSION 1.14.2
 ENV NODE_VERSION 10.15.3
-ENV COMPOSER_VERSION 1.8.4
-ENV YARN_VERSION 1.15.2
+ENV COMPOSER_VERSION 1.8.5
+ENV YARN_VERSION 1.16.0
 
 # Create some needed directories
 RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
