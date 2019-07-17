@@ -19,7 +19,7 @@ RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
 WORKDIR /app/user
 
 # Locate our binaries
-ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:$PATH
+ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user/:$PATH
 
 # Install Nginx
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
