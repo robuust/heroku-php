@@ -61,7 +61,7 @@ extension=xsl.so\n\
 " >> /app/.heroku/php/etc/php/php.ini
 
 # Install Composer
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/extensions/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Node
 RUN curl --silent --location https://s3pository.heroku.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
