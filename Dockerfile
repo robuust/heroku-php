@@ -95,7 +95,7 @@ ONBUILD COPY composer.lock /app/user/
 ONBUILD COPY composer.json /app/user/
 
 # run install but without scripts as we don't have the app source yet
-ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest
+ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest --no-interaction
 
 # require the buildpack for execution
 ONBUILD RUN composer show heroku/heroku-buildpack-php || { echo 'Your composer.json must have "heroku/heroku-buildpack-php" as a "require-dev" dependency.'; exit 1; }
