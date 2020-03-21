@@ -6,12 +6,12 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 ENV PORT 3000
 
 # Which versions?
-ENV PHP_VERSION 7.4.3
-ENV REDIS_EXT_VERSION 5.1.1
+ENV PHP_VERSION 7.4.4
+ENV REDIS_EXT_VERSION 5.2.1
 ENV IMAGICK_EXT_VERSION 3.4.4
 ENV NGINX_VERSION 1.16.1
 ENV NODE_VERSION 12.16.1
-ENV COMPOSER_VERSION 1.9.3
+ENV COMPOSER_VERSION 1.10.1
 ENV YARN_VERSION 1.22.4
 
 # Create some needed directories
@@ -95,7 +95,7 @@ ONBUILD COPY composer.lock /app/user/
 ONBUILD COPY composer.json /app/user/
 
 # run install but without scripts as we don't have the app source yet
-ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest
+ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest --no-interaction
 
 # require the buildpack for execution
 ONBUILD RUN composer show heroku/heroku-buildpack-php || { echo 'Your composer.json must have "heroku/heroku-buildpack-php" as a "require-dev" dependency.'; exit 1; }
