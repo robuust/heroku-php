@@ -90,6 +90,9 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 # Install Prestissimo
 RUN composer global require hirak/prestissimo
 
+# Install composer asset plugin for Yii
+RUN composer global require fxp/composer-asset-plugin
+
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.lock /app/user/
 ONBUILD COPY composer.json /app/user/
