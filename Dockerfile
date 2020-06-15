@@ -95,7 +95,7 @@ ONBUILD COPY composer.lock /app/user/
 ONBUILD COPY composer.json /app/user/
 
 # run install but without scripts as we don't have the app source yet
-ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest --no-interaction
+ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest --no-interaction --no-autoloader
 
 # require the buildpack for execution
 ONBUILD RUN composer show heroku/heroku-buildpack-php || { echo 'Your composer.json must have "heroku/heroku-buildpack-php" as a "require-dev" dependency.'; exit 1; }
@@ -109,4 +109,4 @@ ONBUILD COPY . /app/user/
 
 # run hooks
 ONBUILD RUN cat composer.json | python -c 'import sys,json; sys.exit("post-install-cmd" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-install-cmd || true
-ONBUILD RUN cat composer.json | python -c 'import sys,json; sys.exit("post-autoload-dump" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-autoload-dump || true
+ONBUILD RUN composer dump-autoload
