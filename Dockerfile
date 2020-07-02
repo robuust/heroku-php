@@ -1,5 +1,5 @@
 # Inherit from Heroku's stack
-FROM heroku/heroku:18
+FROM heroku/heroku:20
 LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 
 # Internally, we arbitrarily use port 3000
