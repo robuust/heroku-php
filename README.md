@@ -5,6 +5,7 @@ Usage: `FROM robuust/heroku-php`
 # Specifications
 
 * Heroku 18
+* Apache
 * Nginx
 * PHP 7.4.x with Redis and Imagick
 * Composer w/ Prestissimo

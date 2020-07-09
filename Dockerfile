@@ -9,6 +9,7 @@ ENV PORT 3000
 ENV PHP_VERSION 7.4.7
 ENV REDIS_EXT_VERSION 5.2.2
 ENV IMAGICK_EXT_VERSION 3.4.4
+ENV HTTPD_VERSION 2.4.43
 ENV NGINX_VERSION 1.18.0
 ENV NODE_VERSION 12.18.2
 ENV COMPOSER_VERSION 1.10.7
@@ -20,6 +21,15 @@ WORKDIR /app/user
 
 # Locate our binaries
 ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user/:$PATH
+
+# Install Apache
+RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
+# Config
+RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
+# FPM socket permissions workaround when run as root
+RUN echo "\n\
+Group root\n\
+" >> /app/.heroku/php/etc/apache2/httpd.conf
 
 # Install Nginx
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
