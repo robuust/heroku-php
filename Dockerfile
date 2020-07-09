@@ -95,7 +95,7 @@ ONBUILD COPY composer.lock /app/user/
 ONBUILD COPY composer.json /app/user/
 
 # run install but without scripts as we don't have the app source yet
-ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest --no-interaction
+ONBUILD RUN composer install --prefer-dist --no-scripts --no-suggest --no-interaction --no-autoloader
 
 # run npm or yarn install
 ONBUILD COPY package*.json yarn.* /app/user/
@@ -106,4 +106,4 @@ ONBUILD COPY . /app/user/
 
 # run hooks
 ONBUILD RUN cat composer.json | python -c 'import sys,json; sys.exit("post-install-cmd" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-install-cmd || true
-ONBUILD RUN cat composer.json | python -c 'import sys,json; sys.exit("post-autoload-dump" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-autoload-dump || true
+ONBUILD RUN composer dump-autoload
