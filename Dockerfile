@@ -69,6 +69,9 @@ extension=pdo_sqlite.so \n\
 extension=xmlrpc.so \n\
 extension=xsl.so\n\
 " >> /app/.heroku/php/etc/php/php.ini
+# Install Xdebug
+COPY ./packages/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so /app/.heroku/php/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so
+RUN echo "zend_extension=\"/usr/local/php/modules/xdebug.so\"" >> /app/.heroku/php/etc/php/php.ini
 
 # Install Composer
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
