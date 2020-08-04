@@ -9,6 +9,7 @@ ENV PORT 3000
 ENV PHP_VERSION 7.4.8
 ENV REDIS_EXT_VERSION 5.3.1
 ENV IMAGICK_EXT_VERSION 3.4.4
+ENV PCOV_EXT 1.0.6
 ENV HTTPD_VERSION 2.4.43
 ENV NGINX_VERSION 1.18.0
 ENV NODE_VERSION 12.18.2
@@ -47,6 +48,7 @@ RUN mkdir -p /app/.heroku/php/etc/php/conf.d
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/extensions/no-debug-non-zts-20190902/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/extensions/no-debug-non-zts-20190902/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-18-stable/extensions/no-debug-non-zts-20190902/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 # Enable all optional exts
 RUN echo "\n\
 user_ini.cache_ttl = 30 \n\
@@ -55,11 +57,12 @@ extension=bcmath.so \n\
 extension=calendar.so \n\
 extension=exif.so \n\
 extension=ftp.so \n\
-extension=gd.so\n\
+extension=gd.so \n\
 extension=gettext.so \n\
 extension=intl.so \n\
 extension=mbstring.so \n\
 extension=pcntl.so \n\
+extension=pcov.so \n\
 extension=redis.so \n\
 extension=imagick.so \n\
 extension=shmop.so \n\
@@ -67,7 +70,7 @@ extension=soap.so \n\
 extension=sqlite3.so \n\
 extension=pdo_sqlite.so \n\
 extension=xmlrpc.so \n\
-extension=xsl.so\n\
+extension=xsl.so \n\
 " >> /app/.heroku/php/etc/php/php.ini
 
 # Install Composer
