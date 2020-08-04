@@ -7,7 +7,7 @@ Usage: `FROM robuust/heroku-php`
 * Heroku 18
 * Apache
 * Nginx
-* PHP 7.4.x with Redis and Imagick
+* PHP 7.4.x with Redis, Imagick and PCov
 * Composer w/ Prestissimo
 * Node 12.x
 * Yarn
