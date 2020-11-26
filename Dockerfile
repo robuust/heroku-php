@@ -13,7 +13,7 @@ ENV PCOV_EXT_VERSION 1.0.6
 ENV HTTPD_VERSION 2.4.46
 ENV NGINX_VERSION 1.18.0
 ENV NODE_VERSION 14.15.1
-ENV COMPOSER_VERSION 1.10.17
+ENV COMPOSER_VERSION 2.0.7
 ENV YARN_VERSION 1.22.10
 
 # Create some needed directories
@@ -99,9 +99,6 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
  && apt-get -qqy install google-chrome-stable \
  && rm /etc/apt/sources.list.d/google-chrome.list \
  && rm -rf /var/lib/apt/lists/*
-
-# Install Prestissimo
-RUN composer global require hirak/prestissimo
 
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.lock /app/user/

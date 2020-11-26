@@ -8,7 +8,7 @@ Usage: `FROM ghcr.io/robuust/heroku-php`
 * Apache
 * Nginx
 * PHP 7.4.x with Redis, Imagick and PCov
-* Composer w/ Prestissimo
+* Composer 2
 * Node 14.x
 * Yarn
 * Chrome
