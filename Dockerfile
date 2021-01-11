@@ -6,7 +6,7 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 ENV PORT 3000
 
 # Which versions?
-ENV PHP_VERSION 7.3.25
+ENV PHP_VERSION 7.3.26
 ENV REDIS_EXT_VERSION 5.3.2
 ENV IMAGICK_EXT_VERSION 3.4.4
 ENV PCOV_EXT_VERSION 1.0.6
