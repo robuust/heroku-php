@@ -66,7 +66,6 @@ extension=shmop.so \n\
 extension=soap.so \n\
 extension=sqlite3.so \n\
 extension=pdo_sqlite.so \n\
-extension=xmlrpc.so \n\
 extension=xsl.so \n\
 " >> /app/.heroku/php/etc/php/php.ini
 
