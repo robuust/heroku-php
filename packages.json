@@ -6,6 +6,20 @@
 				"version": "5.9.0",
 				"type": "heroku-sys-php-extension",
 				"require": {
+					"php": "7.3.*",
+					"heroku/installer-plugin": "^1.2.0"
+				},
+				"dist": {
+					"type": "heroku-sys-tar",
+					"url": "https://github.com/robuust/heroku-php/raw/pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.9.0_php-7.3.tar.gz"
+				},
+				"time": "2021-01-30 08:51:30"
+			},
+			{
+				"name": "heroku-sys/ext-pdo_sqlsrv",
+				"version": "5.9.0",
+				"type": "heroku-sys-php-extension",
+				"require": {
 					"php": "8.0.*",
 					"heroku/installer-plugin": "^1.2.0"
 				},
