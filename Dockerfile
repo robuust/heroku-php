@@ -55,7 +55,7 @@ RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-bui
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20180731/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20180731/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20180731/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://github.com/robuust/heroku-php/raw/pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.8.1_php-7.3.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://github.com/robuust/heroku-php/raw/pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.9.0_php-7.3.tar.gz | tar xz -C /app/.heroku/php
 # Enable all optional exts
 RUN echo "\n\
 user_ini.cache_ttl = 30 \n\
