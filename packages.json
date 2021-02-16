@@ -12,7 +12,7 @@
 				},
 				"dist": {
 					"type": "heroku-sys-tar",
-					"url": "https://github.com/robuust/heroku-php/raw/php8-pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.9.0_php-8.0.tar.gz"
+					"url": "https://github.com/robuust/heroku-php/raw/pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.9.0_php-8.0.tar.gz"
 				},
 				"time": "2021-01-30 08:51:30"
 			},
@@ -27,7 +27,7 @@
 				},
 				"dist": {
 					"type": "heroku-sys-tar",
-					"url": "https://github.com/robuust/heroku-php/raw/php8-pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.9.0_php-7.4.tar.gz"
+					"url": "https://github.com/robuust/heroku-php/raw/pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.9.0_php-7.4.tar.gz"
 				},
 				"time": "2020-02-08 08:57:30"
 			}
