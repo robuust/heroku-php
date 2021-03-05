@@ -1,6 +1,6 @@
 # Docker image for Heroku PHP
 
-Usage: `FROM ghcr.io/robuust/heroku-php`
+Usage: `FROM ghcr.io/robuust/heroku-php:pdo_sqlsrv`
 
 # Specifications
 
