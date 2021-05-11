@@ -97,14 +97,13 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
  && rm -rf /var/lib/apt/lists/*
 
 # copy dep files first so Docker caches the install step if they don't change
-ONBUILD COPY composer.lock /app/user/
-ONBUILD COPY composer.json /app/user/
+ONBUILD COPY composer.json composer.lock /app/user/
 
 # run install but without scripts as we don't have the app source yet
 ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
 # run npm or yarn install
-ONBUILD COPY package*.json yarn.* /app/user/
+ONBUILD COPY package*.json yarn.* *.npmrc /app/user/
 ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress || npm install
 
 # rest of app
