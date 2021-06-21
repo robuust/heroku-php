@@ -1,6 +1,6 @@
 # Docker image for Heroku PHP
 
-Usage: `FROM ghcr.io/robuust/heroku-php:php8`
+Usage: `FROM ghcr.io/robuust/heroku-php`
 
 # Specifications
 
