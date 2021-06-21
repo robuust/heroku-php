@@ -6,9 +6,8 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 ENV PORT 3000
 
 # Which versions?
-ENV PHP_VERSION 7.4.20
+ENV PHP_VERSION 8.0.7
 ENV REDIS_EXT_VERSION 5.3.4
-ENV IMAGICK_EXT_VERSION 3.4.4
 ENV PCOV_EXT_VERSION 1.0.9
 ENV HTTPD_VERSION 2.4.46
 ENV NGINX_VERSION 1.20.1
@@ -46,9 +45,8 @@ RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-st
 # Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20190902/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20190902/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20190902/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20200930/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-20-stable/extensions/no-debug-non-zts-20200930/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 # Enable all optional exts
 RUN echo "\n\
 user_ini.cache_ttl = 30 \n\
@@ -64,12 +62,10 @@ extension=mbstring.so \n\
 extension=pcntl.so \n\
 extension=pcov.so \n\
 extension=redis.so \n\
-extension=imagick.so \n\
 extension=shmop.so \n\
 extension=soap.so \n\
 extension=sqlite3.so \n\
 extension=pdo_sqlite.so \n\
-extension=xmlrpc.so \n\
 extension=xsl.so \n\
 " >> /app/.heroku/php/etc/php/php.ini
 
