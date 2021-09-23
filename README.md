@@ -7,7 +7,7 @@ Usage: `FROM ghcr.io/robuust/heroku-php`
 * Heroku 20
 * Apache
 * Nginx
-* PHP 8.0.x with Redis and PCov
+* PHP 8.0.x with Redis, Imagick and PCov
 * Composer 2
 * Node 14.x
 * Yarn
