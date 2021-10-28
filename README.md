@@ -9,7 +9,7 @@ Usage: `FROM ghcr.io/robuust/heroku-php:pdo_sqlsrv`
 * Nginx
 * PHP 8.0.x with Redis, Imagick, PCov and PDO SQL Server
 * Composer 2
-* Node 14.x
+* Node 16.x
 * Yarn
 * Chrome
 * ChromeDriver
