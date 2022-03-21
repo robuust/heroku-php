@@ -15,7 +15,7 @@ ENV HTTPD_VERSION 2.4.53
 ENV NGINX_VERSION 1.20.2
 ENV NODE_VERSION 16.14.2
 ENV COMPOSER_VERSION 2.2.9
-ENV YARN_VERSION 1.22.17
+ENV YARN_VERSION 1.22.18
 
 # Create some needed directories
 RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
