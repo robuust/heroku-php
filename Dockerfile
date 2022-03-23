@@ -116,7 +116,7 @@ ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-inter
 
 # run npm or yarn install
 ONBUILD COPY package*.json yarn.* *.npmrc /app/user/
-ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress || npm install
+ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts || npm install --no-progress --ignore-scripts
 
 # rest of app
 ONBUILD COPY . /app/user/
@@ -124,3 +124,4 @@ ONBUILD COPY . /app/user/
 # run hooks
 ONBUILD RUN cat composer.json | python -c 'import sys,json; sys.exit("post-install-cmd" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-install-cmd || true
 ONBUILD RUN composer dump-autoload
+ONBUILD RUN cat package.json | python -c 'import sys,json; sys.exit("postinstall" not in json.load(sys.stdin).get("scripts", {}));' && yarn run postinstall || true
