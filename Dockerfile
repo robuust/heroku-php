@@ -115,4 +115,4 @@ ONBUILD COPY . /app/user/
 # run hooks
 ONBUILD RUN cat composer.json | python -c 'import sys,json; sys.exit("post-install-cmd" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-install-cmd || true
 ONBUILD RUN composer dump-autoload
-ONBUILD RUN cat package.json | python -c 'import sys,json; sys.exit("postinstall" not in json.load(sys.stdin).get("scripts", {}));' && yarn run postinstall || true
+ONBUILD RUN [ -f yarn.lock ] && yarn install --force --no-progress || npm rebuild --no-progress
