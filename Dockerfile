@@ -67,6 +67,7 @@ extension=redis.so \n\
 extension=imagick.so \n\
 extension=shmop.so \n\
 extension=soap.so \n\
+extension=sodium.so \n\
 extension=sqlite3.so \n\
 extension=pdo_sqlite.so \n\
 extension=xsl.so \n\
