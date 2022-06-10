@@ -107,7 +107,7 @@ ONBUILD COPY composer.json composer.lock /app/user/
 ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
 # run npm or yarn install
-ONBUILD COPY *package*.json *yarn.lock *.npmrc /app/user/
+ONBUILD COPY *package*.json *yarn.lock *.npmrc Dockerfile /app/user/
 ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts || npm install --no-progress --ignore-scripts
 
 # rest of app
