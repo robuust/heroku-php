@@ -24,7 +24,7 @@ WORKDIR /app/user
 ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user/:$PATH
 
 # Install Apache
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-22-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
 # Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
 # FPM socket permissions workaround when run as root
@@ -33,7 +33,7 @@ Group root\n\
 " >> /app/.heroku/php/etc/apache2/httpd.conf
 
 # Install Nginx
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-22-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
 # Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/conf/nginx/main.conf > /app/.heroku/php/etc/nginx/nginx.conf
 # FPM socket permissions workaround when run as root
@@ -42,13 +42,13 @@ user nobody root;\n\
 " >> /app/.heroku/php/etc/nginx/nginx.conf
 
 # Install PHP
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-22-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 # Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-22-stable/extensions/no-debug-non-zts-20210902/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-22-stable/extensions/no-debug-non-zts-20210902/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-22-stable/extensions/no-debug-non-zts-20210902/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/extensions/no-debug-non-zts-20210902/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/extensions/no-debug-non-zts-20210902/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/extensions/no-debug-non-zts-20210902/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 # Enable all optional exts
 RUN echo "\n\
 user_ini.cache_ttl = 30 \n\
@@ -74,7 +74,7 @@ extension=xsl.so \n\
 " >> /app/.heroku/php/etc/php/php.ini
 
 # Install Composer
-RUN curl --silent --location https://lang-php.s3.amazonaws.com/dist-heroku-22-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Node
 RUN curl --silent --location https://s3pository.heroku.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
