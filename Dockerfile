@@ -12,7 +12,7 @@ ENV IMAGICK_EXT_VERSION 3.7.0
 ENV PCOV_EXT_VERSION 1.0.11
 ENV HTTPD_VERSION 2.4.54
 ENV NGINX_VERSION 1.22.0
-ENV NODE_VERSION 16.16.0
+ENV NODE_VERSION 16.17.0
 ENV COMPOSER_VERSION 2.3.10
 ENV YARN_VERSION 1.22.19
 
@@ -77,7 +77,7 @@ extension=xsl.so \n\
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Node
-RUN curl --silent --location https://s3pository.heroku.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
+RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
 
 # Install Yarn
 RUN curl --silent --location https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
