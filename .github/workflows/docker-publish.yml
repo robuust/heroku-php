@@ -22,7 +22,7 @@ jobs:
 
       - name: Run tests
         run: |
-          docker buildx build . --file Dockerfile
+          docker buildx build . --file Dockerfile --platform=linux/amd64,linux/arm64
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
@@ -58,4 +58,4 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker buildx build . --file Dockerfile --tag $IMAGE_NAME $IMAGE_ID:$VERSION --push
+          docker buildx build . --file Dockerfile --tag $IMAGE_NAME $IMAGE_ID:$VERSION --push --platform=linux/amd64,linux/arm64
