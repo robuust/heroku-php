@@ -1,3 +1,6 @@
+# Declare TARGETARCH to make it available
+ARG TARGETARCH
+
 # Which versions?
 ARG PHP_VERSION=8.1.10
 ARG REDIS_EXT_VERSION=5.3.7
@@ -10,7 +13,7 @@ ARG COMPOSER_VERSION=2.4.1
 ARG YARN_VERSION=1.22.19
 
 # Inherit from Heroku's stack
-FROM --platform=linux/amd64 heroku/heroku:22 as stage-amd64
+FROM --platform=linux/amd64 robuust/heroku:22 as stage-amd64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
@@ -42,24 +45,6 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 
 # Install Node
 RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
-
-# Install Chrome WebDriver
-RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` \
- && mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION \
- && curl -sS -o /tmp/chromedriver_linux64.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip \
- && unzip -qq /tmp/chromedriver_linux64.zip -d /opt/chromedriver-$CHROMEDRIVER_VERSION \
- && rm /tmp/chromedriver_linux64.zip \
- && chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver \
- && ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver
-
-# Install Google Chrome
-ENV DEBIAN_FRONTEND noninteractive
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
- && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
- && apt-get update -qqy \
- && apt-get -qqy install google-chrome-stable \
- && rm /etc/apt/sources.list.d/google-chrome.list \
- && rm -rf /var/lib/apt/lists/*
 
 # Inherit from Heroku's stack
 FROM --platform=linux/arm64 robuust/heroku:22 as stage-arm64
@@ -94,9 +79,6 @@ RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.c
 
 # Install Node
 RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-arm64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
-
-# Declare TARGETARCH to make it available
-ARG TARGETARCH
 
 # Select final stage based on TARGETARCH ARG
 FROM stage-${TARGETARCH} as final
