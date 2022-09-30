@@ -1,6 +1,3 @@
-# Declare TARGETARCH to make it available
-ARG TARGETARCH
-
 # Which versions?
 ARG PHP_VERSION=8.1.10
 ARG REDIS_EXT_VERSION=5.3.7
@@ -81,6 +78,7 @@ RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.c
 RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-arm64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
 
 # Select final stage based on TARGETARCH ARG
+ARG TARGETARCH
 FROM stage-${TARGETARCH} as final
 LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 
