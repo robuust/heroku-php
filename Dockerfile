@@ -13,6 +13,7 @@ ARG YARN_VERSION=1.22.19
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 robuust/heroku:22 as stage-amd64
 ARG PHP_VERSION
+ARG PDO_SQLSRV_EXT_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
@@ -48,6 +49,7 @@ RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
 # Inherit from Heroku's stack
 FROM --platform=linux/arm64 robuust/heroku:22 as stage-arm64
 ARG PHP_VERSION
+ARG PDO_SQLSRV_EXT_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
