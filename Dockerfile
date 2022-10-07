@@ -97,7 +97,7 @@ ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
  && apt-get update -qqy \
- && ACCEPT_EULA=Y apt-get -qqy install msodbcsql17 mssql-tools unixodbc-dev
+ && ACCEPT_EULA=Y apt-get -qqy install msodbcsql18 mssql-tools18 unixodbc-dev
 
 # Apache Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
