@@ -91,7 +91,7 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 ENV PORT 3000
 
 # Locate our binaries
-ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user:/opt/mssql-tools/bin:$PATH
+ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user:/opt/mssql-tools18/bin:$PATH
 
 # Install Microsoft ODBC driver, MSSQL tools and unixODBC development headers
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
