@@ -12,7 +12,7 @@
 				},
 				"dist": {
 					"type": "heroku-sys-tar",
-					"url": "https://github.com/robuust/heroku-php/raw/pdo_sqlsrv-multiarch/packages/ext-pdo_sqlsrv-5.10.1_php-8.1.tar.gz"
+					"url": "https://github.com/robuust/heroku-php/raw/pdo_sqlsrv/packages/ext-pdo_sqlsrv-5.10.1_php-8.1.tar.gz"
 				},
 				"time": "2022-10-10 10:51:30"
 			}
