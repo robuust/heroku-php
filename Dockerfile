@@ -133,6 +133,7 @@ extension=gd.so \n\
 extension=gettext.so \n\
 extension=intl.so \n\
 extension=mbstring.so \n\
+extension=openswoole.so \n\
 extension=pcntl.so \n\
 extension=pdo_sqlsrv.so \n\
 extension=pcov.so \n\
