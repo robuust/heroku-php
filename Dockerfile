@@ -2,7 +2,7 @@
 ARG PHP_VERSION=8.2.5
 ARG PDO_SQLSRV_EXT_VERSION=5.11.0
 ARG SWOOLE_EXT_VERSION=22.0.0
-ARG GRPC_EXT_VERSION=1.55.0RC1
+ARG GRPC_EXT_VERSION=1.48.4
 ARG PROTOBUF_EXT_VERSION=3.23.0
 ARG REDIS_EXT_VERSION=5.3.7
 ARG IMAGICK_EXT_VERSION=3.7.0
@@ -46,7 +46,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-22-stable/extensions/no-debug-non-zts-20220829/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20220829/pdo_sqlsrv-$PDO_SQLSRV_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20220829/openswoole-$SWOOLE_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20220829/grpc-$GRPC_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
+# RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20220829/grpc-$GRPC_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20220829/protobuf-$PROTOBUF_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
