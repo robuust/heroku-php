@@ -110,54 +110,54 @@ ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/
 
 # Install Microsoft ODBC driver, MSSQL tools and unixODBC development headers
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
- && curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
- && apt-get update -qqy \
- && ACCEPT_EULA=Y apt-get -qqy install msodbcsql18 mssql-tools18 unixodbc-dev
+    && curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update -qqy \
+    && ACCEPT_EULA=Y apt-get -qqy install msodbcsql18 mssql-tools18 unixodbc-dev
 
 # Apache Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-Group root\n\
-" >> /app/.heroku/php/etc/apache2/httpd.conf
+    Group root\n\
+    " >> /app/.heroku/php/etc/apache2/httpd.conf
 
 # Nginx Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/conf/nginx/main.conf > /app/.heroku/php/etc/nginx/nginx.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-user nobody root;\n\
-" >> /app/.heroku/php/etc/nginx/nginx.conf
+    user nobody root;\n\
+    " >> /app/.heroku/php/etc/nginx/nginx.conf
 
 # PHP Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
 # Enable all optional exts
 RUN echo "\n\
-user_ini.cache_ttl = 30 \n\
-opcache.enable = 0 \n\
-extension=bcmath.so \n\
-extension=calendar.so \n\
-extension=exif.so \n\
-extension=ftp.so \n\
-extension=gd.so \n\
-extension=gettext.so \n\
-extension=grpc.so \n\
-extension=intl.so \n\
-extension=mbstring.so \n\
-extension=openswoole.so \n\
-extension=pcntl.so \n\
-extension=pcov.so \n\
-extension=pdo_sqlsrv.so \n\
-extension=protobuf.so \n\
-extension=redis.so \n\
-extension=imagick.so \n\
-extension=shmop.so \n\
-extension=soap.so \n\
-extension=sodium.so \n\
-extension=sqlite3.so \n\
-extension=pdo_sqlite.so \n\
-extension=xsl.so \n\
-" >> /app/.heroku/php/etc/php/php.ini
+    user_ini.cache_ttl = 30 \n\
+    opcache.enable = 0 \n\
+    extension=bcmath.so \n\
+    extension=calendar.so \n\
+    extension=exif.so \n\
+    extension=ftp.so \n\
+    extension=gd.so \n\
+    extension=gettext.so \n\
+    extension=grpc.so \n\
+    extension=intl.so \n\
+    extension=mbstring.so \n\
+    extension=openswoole.so \n\
+    extension=pcntl.so \n\
+    extension=pcov.so \n\
+    extension=pdo_sqlsrv.so \n\
+    extension=protobuf.so \n\
+    extension=redis.so \n\
+    extension=imagick.so \n\
+    extension=shmop.so \n\
+    extension=soap.so \n\
+    extension=sodium.so \n\
+    extension=sqlite3.so \n\
+    extension=pdo_sqlite.so \n\
+    extension=xsl.so \n\
+    " >> /app/.heroku/php/etc/php/php.ini
 
 # Install Yarn
 RUN curl --silent --location https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
