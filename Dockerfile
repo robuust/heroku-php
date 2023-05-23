@@ -135,6 +135,7 @@ RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-bui
 RUN echo "\n\
     user_ini.cache_ttl = 30 \n\
     opcache.enable = 0 \n\
+    grpc.enable_fork_support = 1 \n\
     extension=bcmath.so \n\
     extension=calendar.so \n\
     extension=exif.so \n\
