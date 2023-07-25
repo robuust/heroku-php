@@ -136,6 +136,7 @@ RUN curl --silent --location https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$
 ONBUILD COPY composer.json composer.lock /app/user/
 
 # run install but without scripts as we don't have the app source yet
+ENV COMPOSER_ALLOW_SUPERUSER=1
 ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
 # run npm or yarn install
