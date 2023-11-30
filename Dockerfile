@@ -7,7 +7,7 @@ ARG HTTPD_VERSION=2.4.58
 ARG NGINX_VERSION=1.24.0
 ARG NODE_VERSION=20.10.0
 ARG COMPOSER_VERSION=2.6.5
-ARG YARN_VERSION=1.22.19
+ARG YARN_VERSION=1.22.21
 
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 robuust/heroku:22 as stage-amd64
