@@ -9,7 +9,7 @@ Usage: `FROM ghcr.io/robuust/heroku-php`
 * Nginx
 * PHP 8.2.x with Redis, Imagick and PCov
 * Composer 2
-* Node 18.x
+* Node 20.x
 * Yarn
 * Chrome
 * ChromeDriver
