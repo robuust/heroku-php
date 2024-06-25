@@ -132,7 +132,7 @@ extension=xsl.so \n\
 " >> /app/.heroku/php/etc/php/php.ini
 
 # Install Yarn
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+RUN npm install --global yarn@$YARN_VERSION
 
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.json composer.lock /app/user/
