@@ -10,7 +10,7 @@ ARG COMPOSER_VERSION=2.7.7
 ARG YARN_VERSION=1.22.22
 
 # Inherit from Heroku's stack
-FROM --platform=linux/amd64 heroku/heroku:24 as stage-amd64
+FROM --platform=linux/amd64 heroku/heroku:24 AS stage-amd64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
@@ -45,7 +45,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
 
 # Inherit from Heroku's stack
-FROM --platform=linux/arm64 heroku/heroku:24 as stage-arm64
+FROM --platform=linux/arm64 heroku/heroku:24 AS stage-arm64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
@@ -81,7 +81,7 @@ RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
 
 # Select final stage based on TARGETARCH ARG
 ARG TARGETARCH
-FROM stage-${TARGETARCH} as final
+FROM stage-${TARGETARCH} AS final
 LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 
 # Internally, we arbitrarily use port 3000
