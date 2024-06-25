@@ -22,6 +22,7 @@ ARG COMPOSER_VERSION
 ARG YARN_VERSION
 
 # Create some needed directories
+USER root
 RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
 WORKDIR /app/user
 
@@ -56,6 +57,7 @@ ARG COMPOSER_VERSION
 ARG YARN_VERSION
 
 # Create some needed directories
+USER root
 RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
 WORKDIR /app/user
 
