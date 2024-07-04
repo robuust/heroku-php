@@ -1,6 +1,7 @@
 # Which versions?
 ARG PHP_VERSION=8.3.10
 ARG REDIS_EXT_VERSION=6.0.2
+ARG MEMCACHED_EXT_VERSION=3.2.0
 ARG IMAGICK_EXT_VERSION=3.7.0
 ARG PCOV_EXT_VERSION=1.0.11
 ARG HTTPD_VERSION=2.4.62
@@ -13,6 +14,7 @@ ARG YARN_VERSION=1.22.22
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
+ARG MEMCACHED_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
 ARG HTTPD_VERSION
@@ -35,6 +37,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 # Install PHP
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/redis-$MEMCACHED_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
@@ -48,6 +51,7 @@ RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
 FROM --platform=linux/arm64 heroku/heroku:24-build AS stage-arm64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
+ARG MEMCACHED_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
 ARG HTTPD_VERSION
@@ -70,6 +74,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 # Install PHP
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/redis-$MEMCACHED_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
@@ -94,42 +99,43 @@ ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-Group root\n\
-" >> /app/.heroku/php/etc/apache2/httpd.conf
+    Group root\n\
+    " >> /app/.heroku/php/etc/apache2/httpd.conf
 
 # Nginx Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/conf/nginx/main.conf > /app/.heroku/php/etc/nginx/nginx.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-user nobody root;\n\
-" >> /app/.heroku/php/etc/nginx/nginx.conf
+    user nobody root;\n\
+    " >> /app/.heroku/php/etc/nginx/nginx.conf
 
 # PHP Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
 # Enable all optional exts
 RUN echo "\n\
-user_ini.cache_ttl = 30 \n\
-opcache.enable = 0 \n\
-extension=bcmath.so \n\
-extension=calendar.so \n\
-extension=exif.so \n\
-extension=ftp.so \n\
-extension=gd.so \n\
-extension=gettext.so \n\
-extension=intl.so \n\
-extension=mbstring.so \n\
-extension=pcntl.so \n\
-extension=pcov.so \n\
-extension=redis.so \n\
-extension=imagick.so \n\
-extension=shmop.so \n\
-extension=soap.so \n\
-extension=sodium.so \n\
-extension=sqlite3.so \n\
-extension=pdo_sqlite.so \n\
-extension=xsl.so \n\
-" >> /app/.heroku/php/etc/php/php.ini
+    user_ini.cache_ttl = 30 \n\
+    opcache.enable = 0 \n\
+    extension=bcmath.so \n\
+    extension=calendar.so \n\
+    extension=exif.so \n\
+    extension=ftp.so \n\
+    extension=gd.so \n\
+    extension=gettext.so \n\
+    extension=intl.so \n\
+    extension=mbstring.so \n\
+    extension=pcntl.so \n\
+    extension=pcov.so \n\
+    extension=redis.so \n\
+    extension=memcached.so \n\
+    extension=imagick.so \n\
+    extension=shmop.so \n\
+    extension=soap.so \n\
+    extension=sodium.so \n\
+    extension=sqlite3.so \n\
+    extension=pdo_sqlite.so \n\
+    extension=xsl.so \n\
+    " >> /app/.heroku/php/etc/php/php.ini
 
 # Install Yarn
 RUN npm install --global yarn@$YARN_VERSION
