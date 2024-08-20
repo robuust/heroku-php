@@ -1,0 +1,55 @@
+{
+	"packages": [
+		[
+			{
+				"name": "heroku-sys/ext-pdo_sqlsrv",
+				"version": "5.12.0",
+				"type": "heroku-sys-php-extension",
+				"require": {
+					"heroku-sys/heroku": "^22.0.0",
+					"heroku-sys/php": "8.3.*",
+					"heroku/installer-plugin": "^1.2.0"
+				},
+				"dist": {
+					"type": "heroku-sys-tar",
+					"url": "https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20230831/pdo_sqlsrv-5.12.0-x86.tar.gz"
+				},
+				"time": "2024-02-01 15:31:30"
+			}
+		],
+		[
+			{
+				"name": "heroku-sys/ext-pdo_sqlsrv",
+				"version": "5.12.0",
+				"type": "heroku-sys-php-extension",
+				"require": {
+					"heroku-sys/heroku": "^22.0.0",
+					"heroku-sys/php": "8.2.*",
+					"heroku/installer-plugin": "^1.2.0"
+				},
+				"dist": {
+					"type": "heroku-sys-tar",
+					"url": "https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20220829/pdo_sqlsrv-5.12.0-x86.tar.gz"
+				},
+				"time": "2024-02-01 15:31:30"
+			}
+		],
+		[
+			{
+				"name": "heroku-sys/ext-pdo_sqlsrv",
+				"version": "5.12.0",
+				"type": "heroku-sys-php-extension",
+				"require": {
+					"heroku-sys/heroku": "^22.0.0",
+					"heroku-sys/php": "8.1.*",
+					"heroku/installer-plugin": "^1.2.0"
+				},
+				"dist": {
+					"type": "heroku-sys-tar",
+					"url": "https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20210902/pdo_sqlsrv-5.12.0-x86.tar.gz"
+				},
+				"time": "2024-02-01 15:31:30"
+			}
+		]
+	]
+}
