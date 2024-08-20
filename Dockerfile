@@ -10,7 +10,7 @@ ARG COMPOSER_VERSION=2.7.7
 ARG YARN_VERSION=1.22.22
 
 # Inherit from Heroku's stack
-FROM --platform=linux/amd64 heroku/heroku:24 AS stage-amd64
+FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
@@ -45,7 +45,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
 
 # Inherit from Heroku's stack
-FROM --platform=linux/arm64 heroku/heroku:24 AS stage-arm64
+FROM --platform=linux/arm64 heroku/heroku:24-build AS stage-arm64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
@@ -149,6 +149,6 @@ ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --ne
 ONBUILD COPY . /app/user/
 
 # run hooks
-ONBUILD RUN cat composer.json | python -c 'import sys,json; sys.exit("post-install-cmd" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-install-cmd || true
+ONBUILD RUN cat composer.json | python3 -c 'import sys,json; sys.exit("post-install-cmd" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-install-cmd || true
 ONBUILD RUN composer dump-autoload
 ONBUILD RUN [ -f yarn.lock ] && yarn install --force --no-progress || npm rebuild --no-progress
