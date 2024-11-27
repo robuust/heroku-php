@@ -94,42 +94,42 @@ ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-Group root\n\
-" >> /app/.heroku/php/etc/apache2/httpd.conf
+    Group root\n\
+    " >> /app/.heroku/php/etc/apache2/httpd.conf
 
 # Nginx Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/conf/nginx/main.conf > /app/.heroku/php/etc/nginx/nginx.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-user nobody root;\n\
-" >> /app/.heroku/php/etc/nginx/nginx.conf
+    user nobody root;\n\
+    " >> /app/.heroku/php/etc/nginx/nginx.conf
 
 # PHP Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
 # Enable all optional exts
 RUN echo "\n\
-user_ini.cache_ttl = 30 \n\
-opcache.enable = 0 \n\
-extension=bcmath.so \n\
-extension=calendar.so \n\
-extension=exif.so \n\
-extension=ftp.so \n\
-extension=gd.so \n\
-extension=gettext.so \n\
-extension=intl.so \n\
-extension=mbstring.so \n\
-extension=pcntl.so \n\
-extension=pcov.so \n\
-extension=redis.so \n\
-extension=imagick.so \n\
-extension=shmop.so \n\
-extension=soap.so \n\
-extension=sodium.so \n\
-extension=sqlite3.so \n\
-extension=pdo_sqlite.so \n\
-extension=xsl.so \n\
-" >> /app/.heroku/php/etc/php/php.ini
+    user_ini.cache_ttl = 30 \n\
+    opcache.enable = 0 \n\
+    extension=bcmath.so \n\
+    extension=calendar.so \n\
+    extension=exif.so \n\
+    extension=ftp.so \n\
+    extension=gd.so \n\
+    extension=gettext.so \n\
+    extension=intl.so \n\
+    extension=mbstring.so \n\
+    extension=pcntl.so \n\
+    extension=pcov.so \n\
+    extension=redis.so \n\
+    extension=imagick.so \n\
+    extension=shmop.so \n\
+    extension=soap.so \n\
+    extension=sodium.so \n\
+    extension=sqlite3.so \n\
+    extension=pdo_sqlite.so \n\
+    extension=xsl.so \n\
+    " >> /app/.heroku/php/etc/php/php.ini
 
 # Install Yarn
 RUN npm install --global yarn@$YARN_VERSION
@@ -142,8 +142,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
 # run npm or yarn install
-ONBUILD COPY *package*.json *yarn.lock *.npmrc Dockerfile /app/user/
-ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || npm install --no-progress --ignore-scripts --legacy-peer-deps
+ONBUILD COPY *package*.json *yarn.lock *.yarnrc.yml *.npmrc Dockerfile /app/user/
+ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || yarn install --mode=skip-build --network-timeout 1000000 || npm install --no-progress --ignore-scripts --legacy-peer-deps
 
 # rest of app
 ONBUILD COPY . /app/user/
