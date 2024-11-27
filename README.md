@@ -10,6 +10,6 @@ Usage: `FROM ghcr.io/robuust/heroku-php:pdo_sqlsrv`
 * PHP 8.3.x with Redis, Imagick, PCov and PDO SQL Server
 * Composer 2
 * Node 20.x
-* Yarn
+* Yarn (classic and modern)
 * Chrome
 * ChromeDriver
