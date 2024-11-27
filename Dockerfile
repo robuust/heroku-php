@@ -161,4 +161,4 @@ ONBUILD RUN composer dump-autoload
 
 # run npm hooks
 ENV CPPFLAGS="-DPNG_ARM_NEON_OPT=0"
-ONBUILD RUN [ -f yarn.lock ] && yarn install --force --no-progress || yarn install --mode=update-lockfile || npm rebuild --no-progress
+ONBUILD RUN [ -f yarn.lock ] && yarn install --force --no-progress || yarn rebuild || npm rebuild --no-progress
