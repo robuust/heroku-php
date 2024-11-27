@@ -148,8 +148,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
 # run npm or yarn install
-ONBUILD COPY *package*.json *yarn.lock *.npmrc Dockerfile /app/user/
-ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || npm install --no-progress --ignore-scripts --legacy-peer-deps
+ONBUILD COPY *package*.json *yarn.lock *.yarnrc.yml *.npmrc Dockerfile /app/user/
+ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || yarn install --mode=skip-build --network-timeout 1000000 || npm install --no-progress --ignore-scripts --legacy-peer-deps
 
 # rest of app
 ONBUILD COPY . /app/user/

@@ -10,6 +10,6 @@ Usage: `FROM ghcr.io/robuust/heroku-php`
 * PHP 8.3.x with Redis, Memcached, Imagick and PCov
 * Composer 2
 * Node 20.x
-* Yarn
+* Yarn (classic and modern)
 * Chrome
 * ChromeDriver
