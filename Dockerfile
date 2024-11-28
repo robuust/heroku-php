@@ -129,6 +129,7 @@ RUN echo "\n\
     " >> /app/.heroku/php/etc/php/php.ini
 
 # Enable Corepack
+ENV COREPACK_ENABLE_AUTO_PIN=0
 RUN corepack enable --install-directory /app/.heroku/node/bin/
 
 # copy dep files first so Docker caches the install step if they don't change
