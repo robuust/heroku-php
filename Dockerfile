@@ -138,9 +138,6 @@ RUN echo "\n\
     extension=xsl.so \n\
     " >> /app/.heroku/php/etc/php/php.ini
 
-# Enable Corepack
-RUN corepack enable --install-directory /app/.heroku/node
-
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.json composer.lock /app/user/
 
@@ -150,6 +147,7 @@ ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-inter
 
 # run npm or yarn install
 ONBUILD COPY *package*.json *yarn.lock *.yarnrc.yml *.npmrc Dockerfile /app/user/
+ONBUILD RUN corepack enable --install-directory /app/.heroku/node
 ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || yarn install --mode=skip-build --network-timeout 1000000 || npm install --no-progress --ignore-scripts --legacy-peer-deps
 
 # rest of app
