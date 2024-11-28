@@ -8,7 +8,6 @@ ARG HTTPD_VERSION=2.4.62
 ARG NGINX_VERSION=1.26.2
 ARG NODE_VERSION=20.18.1
 ARG COMPOSER_VERSION=2.8.3
-ARG YARN_VERSION=1.22.22
 
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
@@ -21,7 +20,6 @@ ARG HTTPD_VERSION
 ARG NGINX_VERSION
 ARG NODE_VERSION
 ARG COMPOSER_VERSION
-ARG YARN_VERSION
 
 # Create some needed directories
 USER root
@@ -58,7 +56,6 @@ ARG HTTPD_VERSION
 ARG NGINX_VERSION
 ARG NODE_VERSION
 ARG COMPOSER_VERSION
-ARG YARN_VERSION
 
 # Create some needed directories
 USER root
@@ -137,8 +134,8 @@ RUN echo "\n\
     extension=xsl.so \n\
     " >> /app/.heroku/php/etc/php/php.ini
 
-# Install Yarn
-RUN npm install --global yarn@$YARN_VERSION
+# Enable Corepack
+RUN corepack enable --install-directory /app/.heroku/node/bin/
 
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.json composer.lock /app/user/
@@ -149,7 +146,6 @@ ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-inter
 
 # run npm or yarn install
 ONBUILD COPY *package*.json *yarn.lock *.yarnrc.yml *.npmrc Dockerfile /app/user/
-ONBUILD RUN corepack enable
 ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || yarn install --mode=skip-build --network-timeout 1000000 || npm install --no-progress --ignore-scripts --legacy-peer-deps
 
 # rest of app
