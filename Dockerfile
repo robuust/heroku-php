@@ -127,7 +127,7 @@ RUN echo "\n\
     " >> /app/.heroku/php/etc/php/php.ini
 
 # Enable Corepack
-RUN corepack enable --install-directory /app/.heroku/node
+RUN corepack enable --install-directory /app/.heroku/node/bin/
 
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.json composer.lock /app/user/
