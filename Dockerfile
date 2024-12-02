@@ -139,9 +139,9 @@ ONBUILD COPY composer.json composer.lock /app/user/
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
-# run npm or yarn install
+# run yarn install
 ONBUILD COPY *package*.json *yarn.lock *.yarn *.npmrc Dockerfile /app/user/
-ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || yarn install --mode=skip-build --network-timeout 1000000 || npm install --no-progress --ignore-scripts --legacy-peer-deps
+ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || yarn install --mode=skip-build --network-timeout 1000000
 
 # rest of app
 ONBUILD COPY . /app/user/
@@ -150,6 +150,6 @@ ONBUILD COPY . /app/user/
 ONBUILD RUN cat composer.json | python3 -c 'import sys,json; sys.exit("post-install-cmd" not in json.load(sys.stdin).get("scripts", {}));' && composer run-script post-install-cmd || true
 ONBUILD RUN composer dump-autoload
 
-# run npm hooks
+# run yarn hooks
 ENV CPPFLAGS="-DPNG_ARM_NEON_OPT=0"
-ONBUILD RUN [ -f yarn.lock ] && yarn install --force --no-progress || yarn rebuild || npm rebuild --no-progress
+ONBUILD RUN [ -f yarn.lock ] && yarn install --force --no-progress || yarn rebuild
