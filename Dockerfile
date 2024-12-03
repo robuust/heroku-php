@@ -36,7 +36,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-22-develop/extensions/no-debug-non-zts-20230831/pdo_sqlsrv-$PDO_SQLSRV_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.
 RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-24-develop/extensions/no-debug-non-zts-20230831/pdo_sqlsrv-$PDO_SQLSRV_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
@@ -90,11 +90,11 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 ENV PORT=3000
 
 # Locate our binaries
-ENV PATH /app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user:/opt/mssql-tools18/bin:$PATH
+ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user:/opt/mssql-tools18/bin:$PATH
 
 # Install Microsoft ODBC driver, MSSQL tools and unixODBC development headers
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+RUN curl --insecure https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
+    && curl --insecure https://packages.microsoft.com/config/ubuntu/24.04/prod.list | tee /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update -qqy \
     && ACCEPT_EULA=Y apt-get -qqy install msodbcsql18 mssql-tools18 unixodbc-dev
 
