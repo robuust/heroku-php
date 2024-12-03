@@ -4,7 +4,7 @@ Usage: `FROM ghcr.io/robuust/heroku-php:pdo_sqlsrv`
 
 # Specifications
 
-* Heroku 22
+* Heroku 24
 * Apache
 * Nginx
 * PHP 8.3.x with Redis, Imagick, PCov and PDO SQL Server
