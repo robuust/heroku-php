@@ -1,5 +1,6 @@
 # Which versions?
 ARG PHP_VERSION=8.3.14
+ARG PDO_SQLSRV_EXT_VERSION=5.12.0
 ARG REDIS_EXT_VERSION=6.1.0
 ARG IMAGICK_EXT_VERSION=3.7.0
 ARG PCOV_EXT_VERSION=1.0.11
@@ -11,6 +12,7 @@ ARG COMPOSER_VERSION=2.8.3
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
 ARG PHP_VERSION
+ARG PDO_SQLSRV_EXT_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
@@ -35,6 +37,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-24-develop/extensions/no-debug-non-zts-20230831/pdo_sqlsrv-$PDO_SQLSRV_EXT_VERSION-x86.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
@@ -45,6 +48,7 @@ RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
 # Inherit from Heroku's stack
 FROM --platform=linux/arm64 heroku/heroku:24-build AS stage-arm64
 ARG PHP_VERSION
+ARG PDO_SQLSRV_EXT_VERSION
 ARG REDIS_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
@@ -69,6 +73,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://robuust-heroku-php.s3.eu-west-1.amazonaws.com/dist-heroku-24-develop/extensions/no-debug-non-zts-20230831/pdo_sqlsrv-$PDO_SQLSRV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
@@ -85,7 +90,13 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 ENV PORT=3000
 
 # Locate our binaries
-ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user/:$PATH
+ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user:/opt/mssql-tools18/bin:$PATH
+
+# Install Microsoft ODBC driver, MSSQL tools and unixODBC development headers
+RUN curl --insecure https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
+    && curl --insecure https://packages.microsoft.com/config/ubuntu/24.04/prod.list | tee /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update -qqy \
+    && ACCEPT_EULA=Y apt-get -qqy install msodbcsql18 mssql-tools18 unixodbc-dev
 
 # Apache Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
@@ -117,6 +128,7 @@ RUN echo "\n\
     extension=intl.so \n\
     extension=mbstring.so \n\
     extension=pcntl.so \n\
+    extension=pdo_sqlsrv.so \n\
     extension=pcov.so \n\
     extension=redis.so \n\
     extension=imagick.so \n\
