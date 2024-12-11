@@ -147,7 +147,8 @@ ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-inter
 
 # run yarn install
 ONBUILD COPY *package*.json *yarn.lock .yarn* *.npmrc Dockerfile /app/user/
-ONBUILD RUN [ -f yarn.lock ] && yarn install --mode=skip-build --network-timeout 1000000 || true
+ONBUILD RUN if [ -f yarn.lock ]; then yarn plugin import https://raw.githubusercontent.com/devoto13/yarn-plugin-engines/main/bundles/%40yarnpkg/plugin-engines.js; fi
+ONBUILD RUN if [ -f yarn.lock ]; then yarn install --mode=skip-build --network-timeout 1000000; fi
 
 # rest of app
 ONBUILD COPY . /app/user/
@@ -158,4 +159,4 @@ ONBUILD RUN composer dump-autoload
 
 # run yarn hooks
 ENV CPPFLAGS="-DPNG_ARM_NEON_OPT=0"
-ONBUILD RUN [ -f yarn.lock ] && yarn rebuild || true
+ONBUILD RUN if [ -f yarn.lock ]; then yarn rebuild; fi
