@@ -152,4 +152,4 @@ ONBUILD RUN composer dump-autoload
 
 # run yarn hooks
 ENV CPPFLAGS="-DPNG_ARM_NEON_OPT=0"
-ONBUILD RUN [ -f yarn.lock ] && yarn rebuild
+ONBUILD RUN [ -f yarn.lock ] && yarn rebuild || true
