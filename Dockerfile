@@ -6,7 +6,7 @@ ARG IMAGICK_EXT_VERSION=3.7.0
 ARG PCOV_EXT_VERSION=1.0.11
 ARG HTTPD_VERSION=2.4.62
 ARG NGINX_VERSION=1.26.2
-ARG NODE_VERSION=20.18.1
+ARG NODE_VERSION=22.12.0
 ARG COMPOSER_VERSION=2.8.3
 
 # Inherit from Heroku's stack
@@ -153,7 +153,7 @@ ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-inter
 
 # run yarn install
 ONBUILD COPY *package*.json *yarn.lock .yarn* *.npmrc Dockerfile /app/user/
-ONBUILD RUN [ -f yarn.lock ] && yarn install --no-progress --ignore-scripts --network-timeout 1000000 || yarn install --mode=skip-build --network-timeout 1000000
+ONBUILD RUN [ -f yarn.lock ] && yarn install --mode=skip-build --network-timeout 1000000 || true
 
 # rest of app
 ONBUILD COPY . /app/user/
@@ -164,4 +164,4 @@ ONBUILD RUN composer dump-autoload
 
 # run yarn hooks
 ENV CPPFLAGS="-DPNG_ARM_NEON_OPT=0"
-ONBUILD RUN [ -f yarn.lock ] && yarn install --force --no-progress || yarn rebuild
+ONBUILD RUN [ -f yarn.lock ] && yarn rebuild
