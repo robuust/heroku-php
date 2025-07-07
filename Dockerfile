@@ -1,6 +1,7 @@
 # Which versions?
 ARG PHP_VERSION=8.3.23
 ARG REDIS_EXT_VERSION=6.2.0
+ARG MEMCACHED_EXT_VERSION=3.3.0
 ARG IMAGICK_EXT_VERSION=3.8.0
 ARG PCOV_EXT_VERSION=1.0.12
 ARG HTTPD_VERSION=2.4.63
@@ -13,6 +14,7 @@ ARG PLAYWRIGHT_VERSION=1.53.2
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
+ARG MEMCACHED_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
 ARG HTTPD_VERSION
@@ -35,6 +37,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 # Install PHP
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/memcached-$MEMCACHED_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
@@ -48,6 +51,7 @@ RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_
 FROM --platform=linux/arm64 heroku/heroku:24-build AS stage-arm64
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
+ARG MEMCACHED_EXT_VERSION
 ARG IMAGICK_EXT_VERSION
 ARG PCOV_EXT_VERSION
 ARG HTTPD_VERSION
@@ -70,6 +74,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 # Install PHP
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/redis-$REDIS_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/memcached-$MEMCACHED_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/imagick-$IMAGICK_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
@@ -122,6 +127,7 @@ RUN echo "\n\
   extension=pcntl.so \n\
   extension=pcov.so \n\
   extension=redis.so \n\
+  extension=memcached.so \n\
   extension=imagick.so \n\
   extension=shmop.so \n\
   extension=soap.so \n\
