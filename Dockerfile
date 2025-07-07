@@ -1,14 +1,14 @@
 # Which versions?
-ARG PHP_VERSION=8.3.22
+ARG PHP_VERSION=8.3.23
 ARG REDIS_EXT_VERSION=6.2.0
 ARG MEMCACHED_EXT_VERSION=3.3.0
 ARG IMAGICK_EXT_VERSION=3.8.0
 ARG PCOV_EXT_VERSION=1.0.12
 ARG HTTPD_VERSION=2.4.63
 ARG NGINX_VERSION=1.28.0
-ARG NODE_VERSION=22.16.0
+ARG NODE_VERSION=22.17.0
 ARG COMPOSER_VERSION=2.8.9
-ARG PLAYWRIGHT_VERSION=1.53.1
+ARG PLAYWRIGHT_VERSION=1.53.2
 
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
@@ -99,43 +99,43 @@ ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-    Group root\n\
-    " >> /app/.heroku/php/etc/apache2/httpd.conf
+  Group root\n\
+  " >> /app/.heroku/php/etc/apache2/httpd.conf
 
 # Nginx Config
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/conf/nginx/main.conf > /app/.heroku/php/etc/nginx/nginx.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
-    user nobody root;\n\
-    " >> /app/.heroku/php/etc/nginx/nginx.conf
+  user nobody root;\n\
+  " >> /app/.heroku/php/etc/nginx/nginx.conf
 
 # PHP Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
 RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
 # Enable all optional exts
 RUN echo "\n\
-    user_ini.cache_ttl = 30 \n\
-    opcache.enable = 0 \n\
-    extension=bcmath.so \n\
-    extension=calendar.so \n\
-    extension=exif.so \n\
-    extension=ftp.so \n\
-    extension=gd.so \n\
-    extension=gettext.so \n\
-    extension=intl.so \n\
-    extension=mbstring.so \n\
-    extension=pcntl.so \n\
-    extension=pcov.so \n\
-    extension=redis.so \n\
-    extension=memcached.so \n\
-    extension=imagick.so \n\
-    extension=shmop.so \n\
-    extension=soap.so \n\
-    extension=sodium.so \n\
-    extension=sqlite3.so \n\
-    extension=pdo_sqlite.so \n\
-    extension=xsl.so \n\
-    " >> /app/.heroku/php/etc/php/php.ini
+  user_ini.cache_ttl = 30 \n\
+  opcache.enable = 0 \n\
+  extension=bcmath.so \n\
+  extension=calendar.so \n\
+  extension=exif.so \n\
+  extension=ftp.so \n\
+  extension=gd.so \n\
+  extension=gettext.so \n\
+  extension=intl.so \n\
+  extension=mbstring.so \n\
+  extension=pcntl.so \n\
+  extension=pcov.so \n\
+  extension=redis.so \n\
+  extension=memcached.so \n\
+  extension=imagick.so \n\
+  extension=shmop.so \n\
+  extension=soap.so \n\
+  extension=sodium.so \n\
+  extension=sqlite3.so \n\
+  extension=pdo_sqlite.so \n\
+  extension=xsl.so \n\
+  " >> /app/.heroku/php/etc/php/php.ini
 
 # Enable Corepack
 ENV COREPACK_ENABLE_AUTO_PIN=0
