@@ -92,6 +92,11 @@ LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 # Internally, we arbitrarily use port 3000
 ENV PORT=3000
 
+# The buildpack normally automatically detects the available RAM and CPU cores
+# but that doesn't work in Docker, so we set it manually.
+# In our Docker environment we have enough memory and cores to set it to 64
+ENV WEB_CONCURRENCY=64
+
 # Locate our binaries
 ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user:/opt/mssql-tools18/bin:$PATH
 
