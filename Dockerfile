@@ -6,9 +6,8 @@ ARG IMAGICK_EXT_VERSION=3.8.0
 ARG PCOV_EXT_VERSION=1.0.12
 ARG HTTPD_VERSION=2.4.65
 ARG NGINX_VERSION=1.28.0
-ARG NODE_VERSION=22.21.0
+ARG NODE_VERSION=24.11.0
 ARG COMPOSER_VERSION=2.8.12
-ARG PLAYWRIGHT_VERSION=1.56.1
 
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
@@ -21,7 +20,6 @@ ARG HTTPD_VERSION
 ARG NGINX_VERSION
 ARG NODE_VERSION
 ARG COMPOSER_VERSION
-ARG PLAYWRIGHT_VERSION
 
 # Create some needed directories
 USER root
@@ -58,7 +56,6 @@ ARG HTTPD_VERSION
 ARG NGINX_VERSION
 ARG NODE_VERSION
 ARG COMPOSER_VERSION
-ARG PLAYWRIGHT_VERSION
 
 # Create some needed directories
 USER root
@@ -151,9 +148,6 @@ RUN echo "\n\
 # Enable Corepack
 ENV COREPACK_ENABLE_AUTO_PIN=0
 RUN corepack enable --install-directory /app/.heroku/node/bin/
-
-# Install Chromium via Playwright
-RUN npx playwright@$PLAYWRIGHT_VERSION install --with-deps chromium
 
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.json composer.lock /app/user/
