@@ -11,4 +11,3 @@ Usage: `FROM ghcr.io/robuust/heroku-php`
 * Composer 2
 * Node 22.x
 * Yarn 4.x
-* Playwright 1.x with Chromium
