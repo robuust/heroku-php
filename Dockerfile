@@ -33,7 +33,7 @@ RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install PHP
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/redis-$REDIS_EXT_VERSION_php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/imagick-$IMAGICK_EXT_VERSION_php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/pcov-$PCOV_EXT_VERSION_php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
@@ -68,7 +68,7 @@ RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install PHP
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/redis-$REDIS_EXT_VERSION_php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/imagick-$IMAGICK_EXT_VERSION_php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/pcov-$PCOV_EXT_VERSION_php-$PHP_MINOR_VERSION.tar.gz | tar xz -C /app/.heroku/php
