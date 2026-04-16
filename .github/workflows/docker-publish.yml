@@ -2,8 +2,9 @@ name: Docker
 
 on:
   push:
-    # Publish `master` as Docker `latest` image.
-    branches: '*'
+    # Build and publish on branch pushes.
+    branches:
+      - '**'
 
 env:
   IMAGE_NAME: heroku-php
@@ -55,8 +56,9 @@ jobs:
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Use branch/tag name as version tag.
+          VERSION="${{ github.ref_name }}"
+          VERSION=$(echo "$VERSION" | tr '/' '-')
 
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
