@@ -4,7 +4,7 @@ Usage: `FROM ghcr.io/robuust/heroku-php`
 
 # Specifications
 
-* Heroku 24
+* Heroku 26
 * Apache
 * Nginx
 * PHP 8.5.x with Redis, Imagick and PCov
