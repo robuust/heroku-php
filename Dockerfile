@@ -150,7 +150,7 @@ ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-inter
 # run yarn install
 ONBUILD COPY *package*.json *yarn.lock .yarn* *.npmrc Dockerfile /app/user/
 ONBUILD RUN if [ -f yarn.lock ]; then yarn plugin import https://raw.githubusercontent.com/devoto13/yarn-plugin-engines/main/bundles/%40yarnpkg/plugin-engines.js; fi
-ONBUILD RUN if [ -f yarn.lock ]; then yarn install --mode=skip-build --network-timeout 1000000; fi
+ONBUILD RUN if [ -f yarn.lock ]; then yarn install --immutable --mode=skip-build --network-timeout 1000000; fi
 
 # rest of app
 ONBUILD COPY . /app/user/
