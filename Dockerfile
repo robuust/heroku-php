@@ -10,7 +10,7 @@ ARG NODE_VERSION=24.16.0
 ARG COMPOSER_VERSION=2.10.1
 
 # Inherit from Heroku's stack
-FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
+FROM --platform=linux/amd64 heroku/heroku:26-build AS stage-amd64
 ARG PHP_MINOR_VERSION
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
@@ -27,25 +27,25 @@ RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
 WORKDIR /app/user
 
 # Install Apache
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/apache-${HTTPD_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-amd64-stable/apache-${HTTPD_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Nginx
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/nginx-${NGINX_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-amd64-stable/nginx-${NGINX_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install PHP
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/php-${PHP_VERSION}.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/ext-redis-${REDIS_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/ext-imagick-${IMAGICK_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/ext-pcov-${PCOV_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-amd64-stable/php-${PHP_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-amd64-stable/ext-redis-${REDIS_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-amd64-stable/ext-imagick-${IMAGICK_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-amd64-stable/ext-pcov-${PCOV_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/composer-${COMPOSER_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-amd64-stable/composer-${COMPOSER_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Node
 RUN curl --silent --location https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
 
 # Inherit from Heroku's stack
-FROM --platform=linux/arm64 heroku/heroku:24-build AS stage-arm64
+FROM --platform=linux/arm64 heroku/heroku:26-build AS stage-arm64
 ARG PHP_MINOR_VERSION
 ARG PHP_VERSION
 ARG REDIS_EXT_VERSION
@@ -62,19 +62,19 @@ RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
 WORKDIR /app/user
 
 # Install Apache
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/apache-${HTTPD_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-arm64-stable/apache-${HTTPD_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Nginx
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/nginx-${NGINX_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-arm64-stable/nginx-${NGINX_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install PHP
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/php-${PHP_VERSION}.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/ext-redis-${REDIS_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/ext-imagick-${IMAGICK_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/ext-pcov-${PCOV_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-arm64-stable/php-${PHP_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-arm64-stable/ext-redis-${REDIS_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-arm64-stable/ext-imagick-${IMAGICK_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-arm64-stable/ext-pcov-${PCOV_EXT_VERSION}_php-${PHP_MINOR_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
-RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/composer-${COMPOSER_VERSION}.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-26-arm64-stable/composer-${COMPOSER_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Node
 RUN curl --silent --location https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
