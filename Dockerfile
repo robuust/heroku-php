@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Which versions?
 ARG PHP_MINOR_VERSION=8.5
 ARG PHP_VERSION=${PHP_MINOR_VERSION}.9
@@ -144,7 +146,9 @@ ENV COREPACK_ENABLE_AUTO_PIN=0
 RUN corepack enable --install-directory /app/.heroku/node/bin/
 
 # Install Chromium via Playwright
-RUN npx playwright@$PLAYWRIGHT_VERSION install --with-deps chromium
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN --mount=type=cache,target=/root/.npm \
+    npx -y playwright@$PLAYWRIGHT_VERSION install --with-deps chromium
 
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.json composer.lock /app/user/
