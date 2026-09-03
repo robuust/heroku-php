@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Which versions?
 ARG PHP_MINOR_VERSION=8.5
 ARG PHP_VERSION=${PHP_MINOR_VERSION}.10
@@ -8,6 +10,7 @@ ARG HTTPD_VERSION=2.4.68
 ARG NGINX_VERSION=1.30.4
 ARG NODE_VERSION=24.20.0
 ARG COMPOSER_VERSION=2.10.3
+ARG PLAYWRIGHT_VERSION=1.62.1
 
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
@@ -20,6 +23,7 @@ ARG HTTPD_VERSION
 ARG NGINX_VERSION
 ARG NODE_VERSION
 ARG COMPOSER_VERSION
+ARG PLAYWRIGHT_VERSION
 
 # Create some needed directories
 USER root
@@ -55,6 +59,7 @@ ARG HTTPD_VERSION
 ARG NGINX_VERSION
 ARG NODE_VERSION
 ARG COMPOSER_VERSION
+ARG PLAYWRIGHT_VERSION
 
 # Create some needed directories
 USER root
@@ -139,6 +144,11 @@ RUN echo "\n\
 # Enable Corepack
 ENV COREPACK_ENABLE_AUTO_PIN=0
 RUN corepack enable --install-directory /app/.heroku/node/bin/
+
+# Install Chromium via Playwright
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN --mount=type=cache,target=/root/.npm \
+    npx -y playwright@$PLAYWRIGHT_VERSION install --with-deps chromium
 
 # copy dep files first so Docker caches the install step if they don't change
 ONBUILD COPY composer.json composer.lock /app/user/
