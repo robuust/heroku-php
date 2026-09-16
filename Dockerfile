@@ -96,7 +96,7 @@ ENV WEB_CONCURRENCY=64
 ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user/:$PATH
 
 # Apache Config
-RUN curl --fail --silent --show-error --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/main/support/build/conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
+RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
   Group root\n\
@@ -111,7 +111,7 @@ RUN echo "\n\
 
 # PHP Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
-RUN curl --fail --silent --show-error --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/main/support/build/conf/php/8/5/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
+RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
 # Enable all optional exts
 RUN echo "\n\
   user_ini.cache_ttl = 30 \n\
