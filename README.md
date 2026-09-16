@@ -24,3 +24,4 @@ the shared downloads; later installs or rebuilds download missing packages again
 * Composer 2
 * Node 24.x
 * Yarn 4.x
+* Playwright 1.x with Chromium
