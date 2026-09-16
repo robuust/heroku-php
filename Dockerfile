@@ -155,12 +155,18 @@ ONBUILD COPY composer.json composer.lock /app/user/
 
 # run install but without scripts as we don't have the app source yet
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ONBUILD RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
+# share downloaded packages across builds without including the cache in the image
+ONBUILD RUN --mount=type=cache,id=heroku-php-composer,target=/var/cache/composer,sharing=shared \
+  COMPOSER_CACHE_DIR=/var/cache/composer composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
 # run yarn install
+# share downloaded packages while keeping installed node_modules in the image
+ENV YARN_ENABLE_GLOBAL_CACHE=true
+ENV YARN_GLOBAL_FOLDER=/var/cache/yarn
 ONBUILD COPY *package*.json *yarn.lock .yarn* *.npmrc Dockerfile /app/user/
 ONBUILD RUN if [ -f yarn.lock ]; then yarn plugin import https://raw.githubusercontent.com/devoto13/yarn-plugin-engines/main/bundles/%40yarnpkg/plugin-engines.js; fi
-ONBUILD RUN if [ -f yarn.lock ]; then yarn install --immutable --mode=skip-build --network-timeout 1000000; fi
+ONBUILD RUN --mount=type=cache,id=heroku-php-yarn,target=/var/cache/yarn/cache,sharing=shared \
+  if [ -f yarn.lock ]; then yarn install --immutable --mode=skip-build --network-timeout 1000000; fi
 
 # rest of app
 ONBUILD COPY . /app/user/
@@ -171,4 +177,5 @@ ONBUILD RUN composer dump-autoload
 
 # run yarn hooks
 ENV CPPFLAGS="-DPNG_ARM_NEON_OPT=0"
-ONBUILD RUN if [ -f yarn.lock ]; then yarn rebuild; fi
+ONBUILD RUN --mount=type=cache,id=heroku-php-yarn,target=/var/cache/yarn/cache,sharing=shared \
+  if [ -f yarn.lock ]; then yarn rebuild; fi
