@@ -150,9 +150,8 @@ ONBUILD RUN --mount=type=cache,id=heroku-php-composer,target=/var/cache/composer
   COMPOSER_CACHE_DIR=/var/cache/composer composer install --prefer-dist --no-scripts --no-progress --no-interaction --no-autoloader
 
 # run yarn install
-# retain project archives in the image while sharing the download mirror
-ENV YARN_ENABLE_GLOBAL_CACHE=false
-ENV YARN_ENABLE_MIRROR=true
+# share downloaded packages while keeping installed node_modules in the image
+ENV YARN_ENABLE_GLOBAL_CACHE=true
 ENV YARN_GLOBAL_FOLDER=/var/cache/yarn
 ONBUILD COPY *package*.json *yarn.lock .yarn* *.npmrc Dockerfile /app/user/
 ONBUILD RUN if [ -f yarn.lock ]; then yarn plugin import https://raw.githubusercontent.com/devoto13/yarn-plugin-engines/main/bundles/%40yarnpkg/plugin-engines.js; fi
