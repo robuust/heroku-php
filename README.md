@@ -17,7 +17,7 @@ the shared downloads; later installs or rebuilds download missing packages again
 
 # Specifications
 
-* Heroku 24
+* Heroku 26
 * Apache
 * Nginx
 * PHP 8.5.x with Redis, Imagick and PCov
