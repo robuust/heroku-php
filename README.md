@@ -20,7 +20,7 @@ the shared downloads; later installs or rebuilds download missing packages again
 * Heroku 24
 * Apache
 * Nginx
-* PHP 8.4.x with Redis, Imagick and PCov
+* PHP 8.5.x with Redis, Imagick and PCov
 * Composer 2
 * Node 24.x
 * Yarn 4.x
