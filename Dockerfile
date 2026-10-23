@@ -101,6 +101,26 @@ ENV WEB_CONCURRENCY=64
 # Locate our binaries
 ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user:/opt/mssql-tools18/bin:$PATH
 
+# Backport PHP's SimpleXML double-free fix until the next PHP release.
+# https://github.com/php/php-src/commit/f9634847258a8c3ed6c12bb79104eba60bb631ea
+RUN if [ "$(php-config --version)" = "8.5.12" ]; then \
+    apt-get update -qq && apt-get install -qqy libreadline-dev libsqlite3-dev && \
+    curl -fsSL https://www.php.net/distributions/php-8.5.12.tar.xz -o /tmp/php.tar.xz && \
+    echo '08bc2eba2a588654ade1357174aa646b761556c862dda0678345ee29ed481209  /tmp/php.tar.xz' | sha256sum -c - && \
+    tar -xJf /tmp/php.tar.xz -C /tmp && \
+    cd /tmp/php-8.5.12 && \
+    sed -i 's/zend_hash_release(sxe->properties)/zend_array_release(sxe->properties)/' ext/simplexml/simplexml.c && \
+    curl -fsSL https://raw.githubusercontent.com/heroku/heroku-buildpack-php/207f07a27f4644d0cf349febe88219d53695f57d/support/build/patches/php/ignoresigterm.patch -o /tmp/php-fpm.patch && \
+    patch -p1 < /tmp/php-fpm.patch && \
+    sed -i 's/fpm_trace_type=ptrace/fpm_trace_type=pread/' configure && \
+    ./configure $(php-config --configure-options) && \
+    make -j$(nproc) sapi/cli/php sapi/fpm/php-fpm sapi/cgi/php-cgi && \
+    strip --strip-unneeded sapi/cli/php sapi/fpm/php-fpm sapi/cgi/php-cgi && \
+    cp sapi/cli/php sapi/cgi/php-cgi /app/.heroku/php/bin/ && \
+    cp sapi/fpm/php-fpm /app/.heroku/php/sbin/ && \
+    rm -rf /tmp/php-8.5.12 /tmp/php.tar.xz /tmp/php-fpm.patch; \
+    fi
+
 # Install Microsoft ODBC driver, MSSQL tools and unixODBC development headers
 RUN curl --fail --silent --show-error --location https://packages.microsoft.com/keys/microsoft-2025.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
   && curl --fail --silent --show-error --location https://packages.microsoft.com/config/ubuntu/26.04/prod.list | tee /etc/apt/sources.list.d/mssql-release.list \
