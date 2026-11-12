@@ -156,7 +156,12 @@ ONBUILD RUN --mount=type=cache,id=heroku-php-composer,target=/var/cache/composer
 ENV YARN_ENABLE_GLOBAL_CACHE=true
 ENV YARN_GLOBAL_FOLDER=/var/cache/yarn
 ONBUILD COPY *package*.json *yarn.lock .yarn* *.npmrc Dockerfile /app/user/
-ONBUILD RUN if [ -f yarn.lock ]; then yarn plugin import https://raw.githubusercontent.com/devoto13/yarn-plugin-engines/main/bundles/%40yarnpkg/plugin-engines.js; fi
+ONBUILD RUN if [ -f yarn.lock ]; then \
+    curl --fail --silent --show-error --location https://raw.githubusercontent.com/devoto13/yarn-plugin-engines/e6556920ba18593fb775bfcdf12fbc2af50b2642/bundles/%40yarnpkg/plugin-engines.js --output /tmp/yarn-plugin-engines.cjs && \
+    echo 'c0d0f84c0af7fc0aec616cce38b449d7e776ab8eadd3d62933cc6df2e5ed94f6  /tmp/yarn-plugin-engines.cjs' | sha256sum --check --strict - && \
+    yarn plugin import /tmp/yarn-plugin-engines.cjs && \
+    rm /tmp/yarn-plugin-engines.cjs; \
+  fi
 ONBUILD RUN --mount=type=cache,id=heroku-php-yarn,target=/var/cache/yarn/cache,sharing=shared \
   if [ -f yarn.lock ]; then yarn install --immutable --mode=skip-build --network-timeout 1000000; fi
 
