@@ -3,10 +3,10 @@ ARG PHP_VERSION=8.3.30
 ARG REDIS_EXT_VERSION=6.3.0
 ARG IMAGICK_EXT_VERSION=3.8.1
 ARG PCOV_EXT_VERSION=1.0.12
-ARG HTTPD_VERSION=2.4.66
+ARG HTTPD_VERSION=2.4.71
 ARG NGINX_VERSION=1.28.1
-ARG NODE_VERSION=24.13.0
-ARG COMPOSER_VERSION=2.9.3
+ARG NODE_VERSION=24.22.3
+ARG COMPOSER_VERSION=2.11.2
 
 # Inherit from Heroku's stack
 FROM --platform=linux/amd64 heroku/heroku:24-build AS stage-amd64
@@ -25,7 +25,7 @@ RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
 WORKDIR /app/user
 
 # Install Apache
-RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Nginx
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
@@ -37,7 +37,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
-RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Node
 RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
@@ -59,7 +59,7 @@ RUN mkdir -p /app/.heroku/php /app/.heroku/node /app/.profile.d
 WORKDIR /app/user
 
 # Install Apache
-RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Nginx
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
@@ -71,7 +71,7 @@ RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-he
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/extensions/no-debug-non-zts-20230831/pcov-$PCOV_EXT_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Composer
-RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/composer-$COMPOSER_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Node
 RUN curl --silent --location https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-arm64.tar.gz | tar --strip-components=1 -xz -C /app/.heroku/node
@@ -93,7 +93,7 @@ ENV WEB_CONCURRENCY=64
 ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user/:$PATH
 
 # Apache Config
-RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
+RUN curl --fail --silent --show-error --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/main/support/build/conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
 # FPM socket permissions workaround when run as root
 RUN echo "\n\
   Group root\n\
@@ -108,7 +108,7 @@ RUN echo "\n\
 
 # PHP Config
 RUN mkdir -p /app/.heroku/php/etc/php/conf.d
-RUN curl --silent --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/master/support/build/_conf/php/7/0/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
+RUN curl --fail --silent --show-error --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/main/support/build/conf/php/conf.d/000-heroku.ini > /app/.heroku/php/etc/php/php.ini
 # Enable all optional exts
 RUN echo "\n\
   user_ini.cache_ttl = 30 \n\
