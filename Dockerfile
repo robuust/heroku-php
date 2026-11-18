@@ -4,7 +4,7 @@ ARG REDIS_EXT_VERSION=6.3.0
 ARG IMAGICK_EXT_VERSION=3.8.1
 ARG PCOV_EXT_VERSION=1.0.12
 ARG HTTPD_VERSION=2.4.71
-ARG NGINX_VERSION=1.28.1
+ARG NGINX_VERSION=1.30.7
 ARG NODE_VERSION=24.22.3
 ARG COMPOSER_VERSION=2.11.2
 
@@ -28,7 +28,7 @@ WORKDIR /app/user
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Nginx
-RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/nginx-${NGINX_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install PHP
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-amd64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
@@ -62,7 +62,7 @@ WORKDIR /app/user
 RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/apache-$HTTPD_VERSION.tar.gz | tar xz -C /app/.heroku/php
 
 # Install Nginx
-RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/nginx-$NGINX_VERSION.tar.gz | tar xz -C /app/.heroku/php
+RUN curl --silent --location https://heroku-buildpack-php.s3.dualstack.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/nginx-${NGINX_VERSION}.tar.gz | tar xz -C /app/.heroku/php
 
 # Install PHP
 RUN curl --silent --location https://lang-php.s3.us-east-1.amazonaws.com/dist-heroku-24-arm64-stable/php-$PHP_VERSION.tar.gz | tar xz -C /app/.heroku/php
