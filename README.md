@@ -1,6 +1,6 @@
 # Docker image for Heroku PHP
 
-Usage: `FROM ghcr.io/robuust/heroku-php`
+Usage: `FROM ghcr.io/robuust/heroku-php:openswoole`
 
 Builds require BuildKit. Composer and Yarn downloads are cached
 across builds using the same builder, including builds from different agents that
@@ -20,7 +20,7 @@ the shared downloads; later installs or rebuilds download missing packages again
 * Heroku 26
 * Apache
 * Nginx
-* PHP 8.5.x with Redis, Imagick and PCov
+* PHP 8.5.x with Redis, Imagick, PCov and OpenSwoole
 * Composer 2
 * Node 24.x
 * Yarn 4.x

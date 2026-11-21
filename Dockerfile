@@ -4,6 +4,8 @@ ARG PHP_VERSION=${PHP_MINOR_VERSION}.13
 ARG REDIS_EXT_VERSION=6.3.0
 ARG IMAGICK_EXT_VERSION=3.8.1
 ARG PCOV_EXT_VERSION=1.0.12
+ARG OPENSWOOLE_EXT_VERSION=26.11.1
+ARG OPENSWOOLE_EXT_SHA256=0b3b05abfa1b57cc45fc303ec88c9eb33f5a4a90a7f7f125f960e009880d5f60
 ARG HTTPD_VERSION=2.4.71
 ARG NGINX_VERSION=1.30.7
 ARG NODE_VERSION=24.22.3
@@ -83,6 +85,8 @@ RUN curl --silent --location https://nodejs.org/dist/v${NODE_VERSION}/node-v${NO
 ARG TARGETARCH
 FROM stage-${TARGETARCH} AS final
 ARG PHP_MINOR_VERSION
+ARG OPENSWOOLE_EXT_VERSION
+ARG OPENSWOOLE_EXT_SHA256
 LABEL maintainer="Bob Olde Hampsink <bob@robuust.digital>"
 
 # Internally, we arbitrarily use port 3000
@@ -95,6 +99,20 @@ ENV WEB_CONCURRENCY=64
 
 # Locate our binaries
 ENV PATH=/app/.heroku/php/bin:/app/.heroku/php/sbin:/app/.heroku/node/bin/:/app/user/node_modules/.bin:/app/user/vendor/bin:/app/user/:$PATH
+
+# Build OpenSwoole against the PHP binary and headers for this architecture.
+RUN set -eu; \
+  build_dir="$(mktemp -d)"; \
+  curl --fail --silent --show-error --location "https://pecl.php.net/get/openswoole-${OPENSWOOLE_EXT_VERSION}.tgz" --output "$build_dir/openswoole.tgz"; \
+  printf '%s  %s\n' "$OPENSWOOLE_EXT_SHA256" "$build_dir/openswoole.tgz" | sha256sum --check --strict; \
+  tar -xzf "$build_dir/openswoole.tgz" -C "$build_dir"; \
+  cd "$build_dir/openswoole-${OPENSWOOLE_EXT_VERSION}"; \
+  phpize; \
+  ./configure --with-php-config=/app/.heroku/php/bin/php-config --enable-openssl --enable-http2 --enable-sockets --enable-hook-curl; \
+  make -j "$(nproc)"; \
+  make install; \
+  cd /; \
+  rm -rf "$build_dir"
 
 # Apache Config
 RUN curl --fail --silent --show-error --location https://raw.githubusercontent.com/heroku/heroku-buildpack-php/main/support/build/conf/apache2/httpd.conf > /app/.heroku/php/etc/apache2/httpd.conf
@@ -130,6 +148,7 @@ RUN echo "\n\
   extension=pcov.so \n\
   extension=redis.so \n\
   extension=imagick.so \n\
+  extension=openswoole.so \n\
   extension=shmop.so \n\
   extension=soap.so \n\
   extension=sodium.so \n\
